@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import json
 import os
 
+
 app = Flask(__name__)
 DATA_FILE = "todos.json"
 
@@ -22,6 +23,7 @@ def load_todos():
 def save_todos(todos):
     with open(DATA_FILE, "w") as f:
         json.dump(todos, f, indent=2)
+
 
 @app.route("/", methods=["GET", "POST"])
 
@@ -46,6 +48,7 @@ def index():
         completed=completed
     )
 
+
 @app.route("/toggle/<int:index>")
 
 
@@ -55,6 +58,7 @@ def toggle(index):
         todos[index]["done"] = not todos[index]["done"]
         save_todos(todos)
     return redirect(url_for("index"))
+
 
 @app.route("/edit/<int:index>", methods=["POST"])
 
@@ -67,6 +71,7 @@ def edit(index):
         save_todos(todos)
     return redirect(url_for("index"))
 
+
 @app.route("/delete/<int:index>")
 
 
@@ -77,6 +82,6 @@ def delete(index):
         save_todos(todos)
     return redirect(url_for("index"))
 
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-    
